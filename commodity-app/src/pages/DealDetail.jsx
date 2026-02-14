@@ -118,8 +118,8 @@ export default function DealDetail() {
 
                         {deal.deal_text && (
                             <div style={{ marginTop: '24px' }}>
-                                <h4 style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Raw Deal Text</h4>
-                                <div style={{ background: 'var(--gray-50)', padding: '16px', borderRadius: 'var(--radius-md)', whiteSpace: 'pre-wrap', fontSize: '13px', lineHeight: 1.6, fontFamily: 'monospace', border: '1px solid var(--gray-200)' }}>
+                                <h4 style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Raw Deal Text</h4>
+                                <div style={{ background: 'var(--bg-inset)', padding: '16px', borderRadius: 'var(--radius-md)', whiteSpace: 'pre-wrap', fontSize: '13px', lineHeight: 1.6, fontFamily: 'monospace', border: '1px solid var(--border-default)' }}>
                                     {deal.deal_text}
                                 </div>
                             </div>
@@ -127,8 +127,8 @@ export default function DealDetail() {
 
                         {deal.additional_notes && (
                             <div style={{ marginTop: '16px' }}>
-                                <h4 style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '8px', textTransform: 'uppercase' }}>Notes</h4>
-                                <p style={{ fontSize: '14px', color: 'var(--gray-700)' }}>{deal.additional_notes}</p>
+                                <h4 style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px', textTransform: 'uppercase' }}>Notes</h4>
+                                <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>{deal.additional_notes}</p>
                             </div>
                         )}
                     </div>
@@ -153,7 +153,7 @@ export default function DealDetail() {
                                     <div style={{ fontSize: '64px', fontWeight: 800, color: deal.ai_score >= 70 ? 'var(--success-600)' : deal.ai_score >= 50 ? 'var(--warning-600)' : 'var(--danger-600)' }}>
                                         {deal.ai_score}
                                     </div>
-                                    <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '4px' }}>
+                                    <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
                                         / 100
                                     </div>
                                     {analysis && (
@@ -164,7 +164,7 @@ export default function DealDetail() {
                                 </>
                             ) : (
                                 <div>
-                                    <p style={{ color: 'var(--gray-400)', fontSize: '14px', marginBottom: '16px' }}>Not scored yet</p>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '16px' }}>Not scored yet</p>
                                     <button className="btn btn-primary btn-sm" onClick={handleScore} disabled={scoring}>
                                         {scoring ? 'Scoring...' : '🤖 Score Now'}
                                     </button>
@@ -180,7 +180,7 @@ export default function DealDetail() {
                 <div className="modal-overlay" onClick={() => setShowDelete(false)}>
                     <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '400px', textAlign: 'center' }}>
                         <h3 style={{ marginBottom: '12px' }}>🗑 Delete Deal?</h3>
-                        <p style={{ color: 'var(--gray-500)', marginBottom: '24px' }}>This action cannot be undone.</p>
+                        <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>This action cannot be undone.</p>
                         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
                             <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
                             <button className="btn btn-secondary" onClick={() => setShowDelete(false)}>Cancel</button>
@@ -195,8 +195,8 @@ export default function DealDetail() {
 function InfoRow({ label, value }) {
     return (
         <div>
-            <div style={{ fontSize: '12px', color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>{label}</div>
-            <div style={{ fontSize: '15px', fontWeight: 500, color: 'var(--gray-800)' }}>{value}</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>{label}</div>
+            <div style={{ fontSize: '15px', fontWeight: 500, color: 'var(--text-primary)' }}>{value}</div>
         </div>
     )
 }

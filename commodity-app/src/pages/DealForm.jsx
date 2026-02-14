@@ -229,7 +229,7 @@ export default function DealForm() {
                                     </div>
                                     <div className="form-group">
                                         <label>Net Discount (%)</label>
-                                        <input className="form-control" type="number" step="0.1" name="net_discount" value={form.net_discount} readOnly style={{ background: 'var(--gray-50)' }} />
+                                        <input className="form-control" type="number" step="0.1" name="net_discount" value={form.net_discount} readOnly style={{ background: 'var(--bg-inset)' }} />
                                         <div className="form-help">Auto-calculated: Gross − Commission</div>
                                     </div>
                                 </>

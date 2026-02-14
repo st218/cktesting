@@ -98,7 +98,7 @@ export default function Kanban() {
                             >
                                 {colDeals.length === 0 ? (
                                     <div className="empty-state" style={{ padding: '20px' }}>
-                                        <p style={{ fontSize: '13px', color: 'var(--gray-400)' }}>Drop deals here</p>
+                                        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Drop deals here</p>
                                     </div>
                                 ) : (
                                     colDeals.map(deal => (
@@ -111,7 +111,7 @@ export default function Kanban() {
                                             onDoubleClick={() => navigate(`/deals/${deal.id}`)}
                                         >
                                             <div className="kanban-card-meta">
-                                                <span style={{ fontSize: '11px', color: 'var(--gray-400)' }}>
+                                                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
                                                     #{deal.legacy_id || deal.id.slice(0, 6)}
                                                 </span>
                                                 {deal.ai_score != null ? (
@@ -119,7 +119,7 @@ export default function Kanban() {
                                                         {deal.ai_score}
                                                     </span>
                                                 ) : (
-                                                    <span className="badge" style={{ background: 'var(--gray-100)', color: 'var(--gray-400)' }}>—</span>
+                                                    <span className="badge" style={{ background: 'var(--bg-inset)', color: 'var(--text-muted)' }}>—</span>
                                                 )}
                                             </div>
                                             <div className="kanban-card-commodity">📦 {deal.commodity_type}</div>

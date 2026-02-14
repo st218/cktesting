@@ -1,0 +1,11 @@
+{
+    "buildCommand": "cd commodity-app && npm install && npm run build",
+    "outputDirectory": "commodity-app/dist",
+    "framework": "vite",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}

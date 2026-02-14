@@ -82,7 +82,7 @@ export default function DealAnalysis() {
                 <ListSection title="📋 Next Steps" items={analysis.next_steps} variant="info" />
             </div>
 
-            <div style={{ marginTop: '24px', fontSize: '12px', color: 'var(--gray-400)', textAlign: 'right' }}>
+            <div style={{ marginTop: '24px', fontSize: '12px', color: 'var(--text-muted)', textAlign: 'right' }}>
                 Analyzed on {new Date(analysis.created_at).toLocaleString()}
             </div>
         </>
@@ -94,7 +94,7 @@ function AnalysisSection({ title, content }) {
     return (
         <div className="card">
             <div className="card-header"><h3>{title}</h3></div>
-            <div className="card-body"><p style={{ lineHeight: 1.8, color: 'var(--gray-700)' }}>{content}</p></div>
+            <div className="card-body"><p style={{ lineHeight: 1.8, color: 'var(--text-secondary)' }}>{content}</p></div>
         </div>
     )
 }
@@ -103,9 +103,9 @@ function ListSection({ title, items, variant }) {
     if (!items?.length) return null
     const colors = {
         danger: { bg: 'var(--danger-50)', border: 'var(--danger-500)', text: 'var(--danger-700)' },
-        warning: { bg: 'var(--warning-50)', border: 'var(--warning-600)', text: 'var(--gray-700)' },
-        success: { bg: 'var(--success-50)', border: 'var(--success-600)', text: 'var(--gray-700)' },
-        info: { bg: 'var(--info-50)', border: 'var(--info-600)', text: 'var(--gray-700)' },
+        warning: { bg: 'var(--warning-50)', border: 'var(--warning-600)', text: 'var(--text-secondary)' },
+        success: { bg: 'var(--success-50)', border: 'var(--success-600)', text: 'var(--text-secondary)' },
+        info: { bg: 'var(--info-50)', border: 'var(--info-600)', text: 'var(--text-secondary)' },
     }
     const c = colors[variant]
     return (

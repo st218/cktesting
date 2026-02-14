@@ -171,7 +171,7 @@ export default function Settings() {
                                                     onChange={e => setEditValues(prev => ({ ...prev, [s.key]: e.target.value }))}
                                                     style={{ flex: 1 }}
                                                 />
-                                                <span style={{ fontWeight: 600, color: 'var(--gray-700)', minWidth: '32px' }}>{val}</span>
+                                                <span style={{ fontWeight: 600, color: 'var(--text-secondary)', minWidth: '32px' }}>{val}</span>
                                             </div>
                                         ) : (
                                             <input
@@ -198,7 +198,7 @@ export default function Settings() {
                     </div>
                     <div className="card-body">
                         {/* Add Source Form */}
-                        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', padding: '16px', background: 'var(--gray-50)', borderRadius: 'var(--radius-md)' }}>
+                        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', padding: '16px', background: 'var(--bg-inset)', borderRadius: 'var(--radius-md)' }}>
                             <input
                                 className="form-control"
                                 placeholder="Source name..."
@@ -276,7 +276,7 @@ export default function Settings() {
                                 ))}
                                 {sources.length === 0 && (
                                     <tr>
-                                        <td colSpan={4} style={{ textAlign: 'center', color: 'var(--gray-400)', padding: '32px' }}>
+                                        <td colSpan={4} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '32px' }}>
                                             No sources yet. Add one above.
                                         </td>
                                     </tr>
