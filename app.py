@@ -2,11 +2,23 @@
 Main Flask Application
 Commodity Deal Tracker
 """
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 from flask_cors import CORS
 from config import Config
 from models.deal import Deal
 from datetime import datetime
+import os
+import json
+import io
+# Import services at top level
+try:
+    from services.ai_scorer import AIScorer
+except ImportError:
+    AIScorer = None
+try:
+    from services.word_generator import WordGenerator
+except ImportError:
+    WordGenerator = None
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -175,7 +187,9 @@ def score_deal(deal_id):
     """
     Score a deal using AI
     """
-    from services.ai_scorer import AIScorer
+    """
+    Score a deal using AI
+    """
 
     # Get the deal
     deal = deal_model.get_by_id(deal_id)
@@ -193,15 +207,17 @@ def score_deal(deal_id):
         }), 400
 
     try:
+        if AIScorer is None:
+             raise ImportError("AI Scorer service is not available (missing dependencies?)")
+
         # Initialize AI scorer
-        scorer = AIScorer(os.environ.get('ANTHROPIC_API_KEY'))
+        scorer = AIScorer(app.config.get('ANTHROPIC_API_KEY'))
 
         # Score the deal
         result = scorer.score_deal(deal)
 
         if result['success']:
             # Update deal with AI score and reasoning
-            import json
 
             deal_model.update(deal_id, {
     'ai_score': result['score'],
@@ -256,10 +272,10 @@ def download_analysis(deal_id):
     """
     Download AI analysis as a Word document
     """
+    """
+    Download AI analysis as a Word document
+    """
     try:
-        from services.word_generator import WordGenerator
-        from flask import send_file
-        import io
 
         # Get the deal
         deal = deal_model.get_by_id(deal_id)
@@ -275,6 +291,9 @@ def download_analysis(deal_id):
                 'success': False,
                 'error': 'This deal has not been scored yet. Please score the deal first.'
             }), 400
+
+        if WordGenerator is None:
+             raise ImportError("Word generator service is not available")
 
         # Generate Word document
         generator = WordGenerator()
@@ -352,12 +371,12 @@ if __name__ == '__main__':
     print("=" * 60)
     print("Starting Commodity Deal Tracker")
     print("=" * 60)
-    print(f"Dashboard: http://localhost:5000")
-    print(f"API Docs: http://localhost:5000/api/deals")
+    print(f"Dashboard: http://localhost:8081")
+    print(f"API Docs: http://localhost:8081/api/deals")
     print("=" * 60)
 
     app.run(
         host='0.0.0.0',
-        port=5000,
+        port=8081,
         debug=app.config['DEBUG']
     )

@@ -26,59 +26,77 @@ def init_database():
     print("=" * 50)
     
     # Check if database already exists
-    if DATABASE_PATH.exists():
-        print(f"⚠️  Database already exists at: {DATABASE_PATH}")
+    if os.path.exists(DATABASE_PATH):
+        print(f"WARN: Database already exists at: {DATABASE_PATH}")
         response = input("Do you want to recreate it? (y/n): ")
         if response.lower() != 'y':
-            print("❌ Initialization cancelled.")
+            print("Initialization cancelled.")
             return
         else:
             os.remove(DATABASE_PATH)
-            print("✅ Old database deleted.")
+            print("Old database deleted.")
+
+    # Create directory if it doesn't exist
+    os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
     
-    # Create database connection
-    print(f"\n📦 Creating database at: {DATABASE_PATH}")
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
-    # Read schema file
-    print(f"📄 Reading schema from: {SCHEMA_PATH}")
-    with open(SCHEMA_PATH, 'r', encoding='utf-8') as f:
-        schema_sql = f.read()
+    # Enable foreign keys
+    cursor.execute("PRAGMA foreign_keys = ON")
     
-    # Execute schema (create tables)
-    print("🔨 Creating tables...")
-    try:
-        cursor.executescript(schema_sql)
-        conn.commit()
-        print("✅ Tables created successfully!")
-    except sqlite3.Error as e:
-        print(f"❌ Error creating tables: {e}")
-        conn.close()
-        return
+    # Create tables
+    tables = []
     
-    # Verify tables were created
-    print("\n🔍 Verifying tables...")
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;")
-    tables = cursor.fetchall()
+    # Sources table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS sources (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT UNIQUE NOT NULL,
+        reliability_rating REAL DEFAULT 5.0,
+        total_deals INTEGER DEFAULT 0,
+        successful_deals INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+    tables.append("sources")
+
+    # Deals table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS deals (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        commodity_type TEXT NOT NULL,
+        source_name TEXT NOT NULL,
+        source_reliability INTEGER,
+        deal_text TEXT,
+        price REAL,
+        price_currency TEXT DEFAULT 'USD',
+        quantity REAL,
+        quantity_unit TEXT,
+        origin_country TEXT,
+        payment_method TEXT,
+        shipping_terms TEXT,
+        additional_notes TEXT,
+        date_received TEXT NOT NULL,
+        status TEXT DEFAULT 'unassigned',
+        ai_score REAL,
+        ai_reasoning TEXT,
+        ai_analysis TEXT,
+        price_type TEXT DEFAULT 'fixed_price',
+        gross_discount REAL,
+        commission REAL,
+        net_discount REAL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+    tables.append("deals")
     
-    if tables:
-        print(f"✅ Found {len(tables)} tables:")
-        for table in tables:
-            print(f"   - {table[0]}")
-            
-            # Count rows in each table
-            cursor.execute(f"SELECT COUNT(*) FROM {table[0]}")
-            count = cursor.fetchone()[0]
-            print(f"     ({count} rows)")
-    else:
-        print("❌ No tables found! Something went wrong.")
-    
-    # Close connection
+    conn.commit()
     conn.close()
     
     print("\n" + "=" * 50)
-    print("✅ DATABASE INITIALIZATION COMPLETE")
+    print("DATABASE INITIALIZATION COMPLETE")
     print("=" * 50)
     print(f"\nYour database is ready at: {DATABASE_PATH}")
     print("\nNext steps:")
